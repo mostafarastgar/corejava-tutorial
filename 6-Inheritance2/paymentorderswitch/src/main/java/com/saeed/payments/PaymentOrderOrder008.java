@@ -5,7 +5,8 @@ public class PaymentOrderOrder008 extends PaymentOrder {
         super(txId);
     }
 
-    public void insertIntoDB(){
-//        todo: insert into db
+    @Override
+    protected void transferAccount() {
+        System.out.println("withdraw debtor and deposit creditor");
     }
 }

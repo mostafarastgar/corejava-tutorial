@@ -9,16 +9,14 @@ public class PaymentOrderOrder004 extends PaymentOrder {
         int a = 10;
     }
 
-    public void insertIntoDB(){
-//        todo: insert into db
+    @Override
+    protected void save() {
+        super.save();
+        System.out.println("save additional info");
     }
 
     @Override
-    public boolean settle() {
-        this.txId = "004" + super.txId;
-        System.out.println("this is from 004");
-        return super.settle();
+    protected void transferAccount() {
+        System.out.println("withdraw creditor and deposit debtor");
     }
-
-
 }

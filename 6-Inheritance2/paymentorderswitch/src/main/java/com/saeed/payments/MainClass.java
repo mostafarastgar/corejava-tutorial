@@ -2,7 +2,7 @@ package com.saeed.payments;
 
 public class MainClass {
     public static void main(String[] args) {
-        PaymentOrder py = new PaymentOrder("10");
+//        PaymentOrder py = new PaymentOrder("10");
         PaymentTransaction pt1 = new PaymentOrderOrder008("20");
 
         PaymentTransaction pt2 = new PaymentOrderOrder004("30", "20");

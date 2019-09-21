@@ -1,8 +1,6 @@
 package com.saeed.payments;
 
-import java.io.Serializable;
-
-public class PaymentOrder implements PaymentTransaction {
+public abstract class PaymentOrder implements PaymentTransaction {
     String txId;
     private String debtor;
     private String creditor;
@@ -19,9 +17,15 @@ public class PaymentOrder implements PaymentTransaction {
     }
 
     @Override
-    public boolean settle() {
-        // TODO: 8/27/2019 transfer amount
-        System.out.println("transfer amount from debtor to creditor");
+    public final boolean settle() {
+        transferAccount();
+        save();
         return true;
     }
+
+    protected void save() {
+        System.out.println("save payment order");
+    }
+
+    protected abstract void transferAccount();
 }
