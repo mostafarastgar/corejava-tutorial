@@ -14,6 +14,8 @@ public abstract class PaymentOrder implements PaymentTransaction {
         this.originator = originator;
         this.beneficiary = beneficiary;
         this.amount = amount;
+        this.settleDate = LocalDateTime.now();
+
     }
 
     @Override
@@ -53,9 +55,6 @@ public abstract class PaymentOrder implements PaymentTransaction {
     }
 
     public LocalDateTime getSettleDate() {
-        if (settleDate == null) {
-            settleDate = LocalDateTime.now();
-        }
         return settleDate;
     }
 
