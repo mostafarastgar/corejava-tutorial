@@ -1,7 +1,8 @@
 package com.saeed.paymentswitch.service;
 
 import com.saeed.paymentswitch.entity.PaymentOrderOrder004;
-import com.saeed.paymentswitch.entity.PaymentTransaction;
+
+import java.util.List;
 
 public class PaymentOrder004Processor extends PaymentOrderProcessor<PaymentOrderOrder004> {
 
@@ -27,7 +28,12 @@ public class PaymentOrder004Processor extends PaymentOrderProcessor<PaymentOrder
     }
 
     @Override
-    protected void generateStatements(PaymentTransaction[] refinedPaymentOrder) {
+    protected void settle(PaymentOrderOrder004 item) {
+        System.out.printf("004 payment order %s is settled%s", item, System.lineSeparator());
+    }
 
+    @Override
+    protected void generateStatements(List<PaymentOrderOrder004> refinedPaymentOrder) {
+        System.out.println("004 statements are generated");
     }
 }

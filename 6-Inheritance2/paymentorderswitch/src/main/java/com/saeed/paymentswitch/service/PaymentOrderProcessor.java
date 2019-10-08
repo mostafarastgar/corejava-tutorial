@@ -2,6 +2,10 @@ package com.saeed.paymentswitch.service;
 
 import com.saeed.paymentswitch.entity.PaymentTransaction;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public abstract class PaymentOrderProcessor<T extends PaymentTransaction> {
     protected T[] paymentTransactions;
 
@@ -12,13 +16,27 @@ public abstract class PaymentOrderProcessor<T extends PaymentTransaction> {
     protected abstract void initPaymentTransactions(String[] rawPays);
 
     public final void calculateStatements() {
-        PaymentOrderSettlementCalculator paymentOrderSettlementCalculator = new PaymentOrderSettlementCalculator(paymentTransactions);
-        PaymentTransaction[] refinedPaymentOrder = paymentOrderSettlementCalculator.calculate(getPaymentOrderSemanticValidator());
-        generateStatements(refinedPaymentOrder);
-
+        List<T> refinedPaymentOrderList = validateTransactions();
+        generateStatements(refinedPaymentOrderList);
     }
 
-    protected abstract void generateStatements(PaymentTransaction[] refinedPaymentOrder);
+    private List<T> validateTransactions() {
+        List<T> refinedPaymentOrder = Arrays.stream(paymentTransactions)
+                .filter(item -> {
+                    boolean validate = getPaymentOrderSemanticValidator().validate(item);
+                    if (validate) {
+                        settle(item);
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }).collect(Collectors.toList());
+        return refinedPaymentOrder;
+    }
+
+    protected abstract void settle(T item);
+
+    protected abstract void generateStatements(List<T> refinedPaymentOrder);
 
     protected abstract PaymentOrderSemanticValidator getPaymentOrderSemanticValidator();
 }

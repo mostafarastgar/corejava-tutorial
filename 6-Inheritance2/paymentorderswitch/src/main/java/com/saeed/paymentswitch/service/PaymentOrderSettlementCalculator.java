@@ -6,15 +6,15 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PaymentOrderSettlementCalculator {
-    private PaymentTransaction[] paymentTransactions;
+public class PaymentOrderSettlementCalculator<T extends PaymentTransaction> {
+    private T[] paymentTransactions;
 
-    public PaymentOrderSettlementCalculator(PaymentTransaction[] paymentTransactions) {
+    public PaymentOrderSettlementCalculator(T[] paymentTransactions) {
         this.paymentTransactions = paymentTransactions;
     }
 
-    public PaymentTransaction[] calculate(PaymentOrderSemanticValidator paymentOrderSemanticValidator) {
-        List<PaymentTransaction> paymentTransactionList = Arrays.stream(this.paymentTransactions).filter(item -> {
+    public List<T> calculate(PaymentOrderSemanticValidator paymentOrderSemanticValidator) {
+        List<T> paymentTransactionList = Arrays.stream(this.paymentTransactions).filter(item -> {
             if (paymentOrderSemanticValidator.validate(item)) {
                 System.out.println(item);
                 return true;
@@ -30,7 +30,7 @@ public class PaymentOrderSettlementCalculator {
 //                System.out.println(paymentTransaction);
 //            }
 //        }
-        PaymentTransaction[] pys = new PaymentTransaction[0];
-        return paymentTransactionList.toArray(pys);
+
+        return paymentTransactionList;
     }
 }
