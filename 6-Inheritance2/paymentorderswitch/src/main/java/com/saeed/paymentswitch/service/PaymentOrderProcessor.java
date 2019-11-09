@@ -21,7 +21,7 @@ public abstract class PaymentOrderProcessor<T extends PaymentTransaction> {
     }
 
     private List<T> validateTransactions() {
-        List<T> refinedPaymentOrder = Arrays.stream(paymentTransactions)
+        List<T> refinedPaymentOrder = Arrays.stream(paymentTransactions).parallel()
                 .filter(item -> {
                     boolean validate = getPaymentOrderSemanticValidator().validate(item);
                     if (validate) {
