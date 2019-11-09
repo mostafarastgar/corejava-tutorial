@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-public class StatementFile {
+public class StatementFile implements Comparable<StatementFile> {
     public static final int STATEMENT_SIZE = 6;
     private String filename;
     private String participant;
@@ -88,5 +88,10 @@ public class StatementFile {
         long creditorSum = statementList.parallelStream().filter(item->item.getBeneficiaryBic().equals(participant)).mapToLong(Statement::getAmount).sum();
         long debtorSum = statementList.parallelStream().filter(item->item.getOriginatorBic().equals(participant)).mapToLong(Statement::getAmount).sum();
         return creditorSum - debtorSum;
+    }
+
+    @Override
+    public int compareTo(StatementFile o) {
+        return this.getStatementsSize() - o.getStatementsSize();
     }
 }

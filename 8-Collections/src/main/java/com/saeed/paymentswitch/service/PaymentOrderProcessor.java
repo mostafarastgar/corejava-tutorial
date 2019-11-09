@@ -43,7 +43,7 @@ public abstract class PaymentOrderProcessor<T extends PaymentOrder> {
 //        our application is not thread safe
 //        refinedPaymentOrderList.parallelStream().forEach(item -> settle(item));
         refinedPaymentOrderList.stream().forEach(item -> settle(item));
-        if(printCutoff) {
+        if (printCutoff) {
             generateCutoffData();
         }
     }
@@ -93,8 +93,7 @@ public abstract class PaymentOrderProcessor<T extends PaymentOrder> {
 //            while (!statementFile.isEmpty()) {
 //                System.out.println(statementFile.pop());
 //            }
-            Set<StatementFile> statementFiles = statementFile.parallelStream().collect(Collectors.toSet());
-            statementFiles.parallelStream().forEach(statementFile1 -> System.out.println(statementFile1));
+            statementFile.stream().sorted(Comparator.reverseOrder()).forEach(System.out::println);
         }
         for (String participant : statementFiles.keySet()) {
             System.out.println(bnp.generateBNP(participant));
